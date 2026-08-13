@@ -1,5 +1,4 @@
 import pytest
-
 from endpoints.orders_api import OrdersApi
 from helpers import generate_order_payload
 from urls import BASE_URL

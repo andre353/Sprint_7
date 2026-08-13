@@ -1,5 +1,4 @@
 import pytest
-
 from endpoints.courier_api import CourierApi
 from helpers import generate_courier_payload, generate_login_payload
 from urls import BASE_URL

@@ -1,6 +1,5 @@
-# data.py
 import random
-from helpers import generate_random_string  # или откуда импортируется эта функция
+from helpers import generate_random_string
 from datetime import datetime, timedelta
 
 def get_base_order_data():

@@ -1,5 +1,5 @@
-BASE_URL = "https://qa-scooter.education-services.ru"
+BASE_URL = "https://qa-scooter.education-services.ru/api/v1"
 
-HOME_PAGE = BASE_URL + "/"
-
-ORDER_PAGE = BASE_URL + "/order"
+ENDPOINT_COURIER = "courier"
+ENDPOINT_ORDERS = "orders"
+ENDPOINT_UTILS = "utils"

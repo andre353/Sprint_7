@@ -1,6 +1,6 @@
-venv/
+.venv/
 __pycache__/
 .pytest_cache/
 *.pyc
 __init__.py
-allure_results/
+allure-results/

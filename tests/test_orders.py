@@ -33,40 +33,51 @@ class TestOrders:
             isinstance(orders_data, list) and 
             len(orders_data) > 0)
 
+    @allure.story("Принятие заказа курьером")
+    @allure.title("Успешное принятие существующего заказа валидным курьером")
     def test_accept_order_success(self, orders_api, created_courier):
         _, courier_id = created_courier
 
         if courier_id is None:
             assert False, "Courier was not created for test setup"
 
-        order_response = orders_api.create(generate_order_payload(["BLACK"]))
-        assert order_response.status_code in (200, 201)
+        base_data = get_base_order_data()
+        order_response = orders_api.create(generate_order_payload(base_data, ["BLACK"]))
         track = order_response.json()["track"]
-
+        
         order_info = orders_api.get_by_number(track)
-        assert order_info.status_code == 200
         order_id = order_info.json()["order"]["id"]
-
+        
         accept_response = orders_api.accept(order_id=order_id, courier_id=courier_id)
-        assert accept_response.status_code == 200
-        assert accept_response.json() == {"ok": True}
+        
+        assert (order_info.status_code == 200 and 
+                accept_response.status_code == 200 and 
+                accept_response.json() == {"ok": True})
 
+    @allure.story("Принятие заказа курьером")
+    @allure.title("Ошибка при принятии заказа без указания ID курьера")
     def test_accept_order_without_courier_id(self, orders_api):
         response = orders_api.accept(order_id=1)
-        assert response.status_code in (400, 404)
-        assert response.json().get("message")
+        
+        assert response.status_code in (400, 404) and response.json().get("message")
 
+    @allure.story("Принятие заказа курьером")
+    @allure.title("Ошибка при принятии заказа несуществующим курьером")
     def test_accept_order_with_wrong_courier_id(self, orders_api):
         response = orders_api.accept(order_id=1, courier_id=999999999)
-        assert response.status_code in (400, 404)
-        assert response.json().get("message")
+        
+        assert response.status_code in (400, 404) and response.json().get("message")
 
+    @allure.story("Принятие заказа курьером")
+    @allure.title("Ошибка при принятии заказа без указания ID заказа")
     def test_accept_order_without_order_id(self, orders_api):
         response = orders_api.accept(courier_id=1)
-        assert response.status_code in (400, 404)
-        assert response.json().get("message")
+        
+        assert response.status_code in (400, 404) and response.json().get("message")
 
+    @allure.story("Принятие заказа курьером")
+    @allure.title("Ошибка при принятии несуществующего заказа")
     def test_accept_order_with_wrong_order_id(self, orders_api):
         response = orders_api.accept(order_id=999999999, courier_id=1)
-        assert response.status_code in (400, 404)
-        assert response.json().get("message")
+
+        assert response.status_code in (400, 404) and response.json().get("message")

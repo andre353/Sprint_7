@@ -1,7 +1,12 @@
+import allure
 from helpers import generate_order_payload
 
 
+@allure.epic("Яндекс.Самокат API")
+@allure.feature("Служебные утилиты и поиск")
 class TestUtils:
+    @allure.story("Поиск заказов по номеру")
+    @allure.title("Успешное получение полной информации о заказе по его трек-номеру")
     def test_get_order_by_number_success(self, orders_api):
         create_response = orders_api.create(generate_order_payload(["BLACK"]))
         assert create_response.status_code in (200, 201)

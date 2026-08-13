@@ -24,17 +24,9 @@ def generate_login_payload(login=None, password=None):
     }
 
 
-def generate_order_payload(colors=None):
-    payload = {
-        "firstName": "Test",
-        "lastName": "User",
-        "address": "Some street",
-        "metroStation": 4,
-        "phone": "+79990000000",
-        "rentTime": 5,
-        "deliveryDate": (datetime.now() + timedelta(days=1)).strftime("%Y-%m-%d"),
-        "comment": "Test order",
-    }
+def generate_order_payload(base_data, colors=None):
+    # Делаем копию, чтобы не изменять оригинальный словарь в data.py
+    payload = base_data.copy()
     if colors is not None:
         payload["color"] = colors
     return payload

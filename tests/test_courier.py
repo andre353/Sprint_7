@@ -1,4 +1,12 @@
+import allure
+import pytest
+
+
+@allure.epic("Яндекс.Самокат API")
+@allure.feature("Управление курьерами")
 class TestCourier:
+    @allure.story("Создание новой учетной записи курьера")
+    @allure.title("Успешное создание курьера со всеми обязательными полями")
     def test_create_courier_success(self, courier_api, courier_payload):
         response = courier_api.create(courier_payload)
         assert response.status_code == 201
@@ -40,6 +48,8 @@ class TestCourier:
         assert response.status_code == 400
         assert response.json().get("message")
 
+    @allure.story("Авторизация курьера")
+    @allure.title("Успешный логин курьера в систему")
     def test_login_courier_success(self, courier_api, created_courier):
         payload, _ = created_courier
         create_response = courier_api.create(payload)

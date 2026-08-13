@@ -1,7 +1,7 @@
 import allure
 import pytest
 from helpers import generate_order_payload
-from data import get_base_order_data
+from data import get_base_order_data, NON_EXISTENT_ID, MOCK_TEST_ID 
 
 @allure.epic("Яндекс.Самокат API")
 @allure.feature("Управление заказами")
@@ -57,27 +57,27 @@ class TestOrders:
     @allure.story("Принятие заказа курьером")
     @allure.title("Ошибка при принятии заказа без указания ID курьера")
     def test_accept_order_without_courier_id(self, orders_api):
-        response = orders_api.accept(order_id=1)
+        response = orders_api.accept(order_id=MOCK_TEST_ID)
         
         assert response.status_code in (400, 404) and response.json().get("message")
 
     @allure.story("Принятие заказа курьером")
     @allure.title("Ошибка при принятии заказа несуществующим курьером")
     def test_accept_order_with_wrong_courier_id(self, orders_api):
-        response = orders_api.accept(order_id=1, courier_id=999999999)
+        response = orders_api.accept(order_id=MOCK_TEST_ID, courier_id=NON_EXISTENT_ID)
         
         assert response.status_code in (400, 404) and response.json().get("message")
 
     @allure.story("Принятие заказа курьером")
     @allure.title("Ошибка при принятии заказа без указания ID заказа")
     def test_accept_order_without_order_id(self, orders_api):
-        response = orders_api.accept(courier_id=1)
+        response = orders_api.accept(courier_id=MOCK_TEST_ID)
         
         assert response.status_code in (400, 404) and response.json().get("message")
 
     @allure.story("Принятие заказа курьером")
     @allure.title("Ошибка при принятии несуществующего заказа")
     def test_accept_order_with_wrong_order_id(self, orders_api):
-        response = orders_api.accept(order_id=999999999, courier_id=1)
+        response = orders_api.accept(order_id=NON_EXISTENT_ID, courier_id=MOCK_TEST_ID)
 
         assert response.status_code in (400, 404) and response.json().get("message")

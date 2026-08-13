@@ -1,5 +1,4 @@
 import requests
-
 from endpoints.base_api import BaseApi
 from urls import ENDPOINT_UTILS
 

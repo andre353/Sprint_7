@@ -1,5 +1,6 @@
 import allure
 import pytest
+from data import NON_EXISTENT_ID
 
 
 @allure.epic("Яндекс.Самокат API")
@@ -114,5 +115,5 @@ class TestCourier:
     @allure.story("Удаление курьера")
     @allure.title("Ошибка при попытке удаления курьера с несуществующим ID")
     def test_delete_courier_not_found(self, courier_api):
-        response = courier_api.delete(999999999)
+        response = courier_api.delete(NON_EXISTENT_ID)
         assert response.status_code in (400, 404) and response.json().get("message")
